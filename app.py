@@ -1,25 +1,24 @@
 #!/usr/bin/env python3
-"""Flask app with Babel internationalization"""
+"""Flask app with Babel internationalization - Flask-Babel 4.x style"""
 
-from flask import Flask, render_template
+from flask import Flask, request
 from flask_babel import Babel, _
-from datetime import datetime
 
 app = Flask(__name__)
-babel = Babel(app)
-
-# Configuration
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
-app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = './translations'
 
+def get_locale():
+    lang = request.args.get('lang')
+    if lang in ['en', 'fr']:
+        return lang
+    return request.accept_languages.best_match(['en', 'fr'])
+
+babel = Babel(app, locale_selector=get_locale)
 
 @app.route('/')
 def index():
-    """Home route with a translated greeting"""
-    greeting = _("Hello, world!")
-    time_msg = _("Current server time: %(time)s", time=datetime.utcnow().strftime("%H:%M:%S"))
-    return render_template('index.html', greeting=greeting, time_msg=time_msg)
-
+    return _("Hello, World!")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

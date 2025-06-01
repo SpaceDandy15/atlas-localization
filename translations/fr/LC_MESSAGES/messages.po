@@ -25,7 +25,7 @@ msgstr "Bonjour, le monde!"
 #: app.py:20
 #, python-format
 msgid "Current server time: %(time)s"
-msgstr ""
+msgstr "Heure actuelle du serveur : %(time)s"
 
 #: venv/lib/python3.12/site-packages/click/_termui_impl.py:600
 #, python-brace-format
